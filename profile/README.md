@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/deckyard/.github/main/profile/deckyard.svg" width="128" height="128" alt="Deckyard">
+</p>
+
 # Deckyard - community decks for Jennifer
 
 Deckyard is a home for **decks** - libraries for the
