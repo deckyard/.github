@@ -1,0 +1,46 @@
+name: Bug report
+description: Something in a deck does not work as documented.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A security problem goes through the **Security** tab, not here.
+  - type: input
+    id: version
+    attributes:
+      label: Deck version
+      description: From `deck.toml`, or the release you vendored.
+      placeholder: 0.2.0
+    validations:
+      required: true
+  - type: input
+    id: jennifer
+    attributes:
+      label: Jennifer version
+      description: The output of `jennifer version`.
+      placeholder: 0.25.0
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Smallest program that shows it
+      description: Inputs it needs go here too, or a link to them.
+      render: jennifer
+    validations:
+      required: true
+  - type: textarea
+    id: happened
+    attributes:
+      label: What happened
+      description: The output or the error, as printed.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      description: And where the docs say so, if they do.
+    validations:
+      required: true

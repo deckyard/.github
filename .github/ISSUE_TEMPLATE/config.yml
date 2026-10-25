@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Propose a new deck
+    url: https://github.com/deckyard/.github/issues/new?labels=deck%20proposal&title=Deck%20proposal%3A%20%40deckyard%2F&body=A%20deck%20is%20accepted%20with%20a%20maintainer%2C%20not%20without%20one%20-%20see%20CONTRIBUTING.md.%0A%0A%23%23%23%20What%20it%20does%2C%20and%20why%20it%20is%20a%20deck%0A%0A%23%23%23%20Maintainers%0A%3C%21--%20GitHub%20handles%3B%20two%20is%20the%20goal%20--%3E%0A%0A%23%23%23%20Licence%0ALGPL-3.0-only%0A%0A%23%23%23%20Outside%20dependencies%0A%3C%21--%20services%2C%20API%20keys%2C%20other%20decks%2C%20capabilities%20%28net%20%2F%20exec%20%2F%20sql%29%20and%20why%20--%3E%0Anone%0A
+    about: Opens a proposal in deckyard/.github, whichever repository you are in.
+  - name: Report a security problem
+    url: https://github.com/deckyard/.github/blob/main/SECURITY.md
+    about: Privately, through the repository's Security tab - not as an issue.
+  - name: A problem in Jennifer itself
+    url: https://github.com/jennifer-language/jennifer/issues
+    about: The interpreter and its standard library belong to the Jennifer project.
