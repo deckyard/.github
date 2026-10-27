@@ -22,6 +22,7 @@ built and checked reaches every deck at once.
 | [`@deckyard/d64`](https://github.com/deckyard/deck-d64) | Read, write, create and format Commodore 1541 D64 disk images |
 | [`@deckyard/forensicgenetics`](https://github.com/deckyard/deck-forensicgenetics) | STR match probabilities, kinship and paternity likelihood ratios, pedigrees, mtDNA / Y-STR lineage markers |
 | [`@deckyard/geo`](https://github.com/deckyard/deck-geo) | GPX, KML, KMZ, GeoJSON and GML over one point model, with geodesy, track statistics, geohashes and map tiles |
+| [`@deckyard/jsonschema`](https://github.com/deckyard/deck-jsonschema) | Validate JSON values against JSON Schema draft 2020-12, checked against the official test suite |
 | [`@deckyard/mitoleaf`](https://github.com/deckyard/deck-mitoleaf) | The mitoLEAF mitochondrial phylogeny: haplogroup tree and nearest-haplogroup lookup |
 | [`@deckyard/mp3`](https://github.com/deckyard/deck-mp3) | ID3v2.2/2.3/2.4 and ID3v1.1 tags, artwork, MPEG frame and VBR analysis, M3U/M3U8 playlists |
 | [`@deckyard/ngs`](https://github.com/deckyard/deck-ngs) | Streaming NGS file formats, read QC, interval arithmetic and pipeline orchestration |
