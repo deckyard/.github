@@ -14,7 +14,10 @@
 #   - secret scanning, push protection, private vulnerability reporting
 #     (CONTRIBUTING.md sends security reports to the Security tab)
 #   - GitHub Pages built by Actions (docs.yml publishes the book)
-#   - the maintainers team, with `maintain` permission
+#   - the maintainers team, with `maintain` permission (--team "" skips it,
+#     for an organisation without teams such as jennifer-language)
+#
+# The `deckyard` topic is added only in the deckyard organisation.
 #
 # With --protect it also sets the rulesets, which belong after the first push:
 #   - main:  no deletion, no force push, and the shared test.yml checks must
@@ -33,7 +36,7 @@
 #
 # Options:
 #   --org ORG         organisation (default: deckyard)
-#   --team SLUG       team given `maintain` (default: maintainers)
+#   --team SLUG       team given `maintain` (default: maintainers; "" for none)
 #   --topic T         an extra topic; repeatable
 #   --deck DIR        read name, description and keywords from DIR's manifest
 #   --protect         also set the branch and tag rulesets
@@ -60,7 +63,7 @@ usage() { sed -n '/^# Usage:/,/^# Needs:/p' "$0" | sed 's/^# \{0,1\}//' >&2; exi
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --org) org="${2:?}"; shift 2 ;;
-        --team) team="${2:?}"; shift 2 ;;
+        --team) team="${2?}"; shift 2 ;;
         --topic) topics+=("${2:?}"); shift 2 ;;
         --deck) deck="${2:?}"; shift 2 ;;
         --protect) protect=yes; shift ;;
@@ -142,7 +145,9 @@ homepage="https://$org.github.io/$repo/"
 
 # Topics: the organisation's three, then the extras, lower-cased and
 # hyphenated as GitHub requires, without duplicates, at most twenty.
-mapfile -t topic_list < <(python3 - jennifer-lang jennifer-deck deckyard \
+org_topics=(jennifer-lang jennifer-deck)
+[[ "$org" == deckyard ]] && org_topics+=(deckyard)
+mapfile -t topic_list < <(python3 - "${org_topics[@]}" \
     "${topics[@]+"${topics[@]}"}" "${keywords[@]+"${keywords[@]}"}" <<'PY'
 import re, sys
 seen = []
@@ -174,8 +179,11 @@ json() { python3 -c 'import json, sys; print(json.dumps(json.loads(sys.argv[1]))
 quote() { python3 -c 'import json, sys; print(json.dumps(sys.argv[1]))' "$1"; }
 
 gh auth status >/dev/null 2>&1 || die "gh is not logged in - run: gh auth login"
-team_id="$(gh api "orgs/$org/teams/$team" --jq .id 2>/dev/null)" \
-    || die "team $org/$team not found - create it first"
+team_id=""
+if [[ -n "$team" ]]; then
+    team_id="$(gh api "orgs/$org/teams/$team" --jq .id 2>/dev/null)" \
+        || die "team $org/$team not found - create it first"
+fi
 
 echo "== $full"
 
@@ -226,8 +234,10 @@ else
     api POST "repos/$full/pages" '{"build_type": "workflow"}'
 fi
 
-echo "  team $team: maintain"
-api PUT "orgs/$org/teams/$team/repos/$full" '{"permission": "maintain"}'
+if [[ -n "$team" ]]; then
+    echo "  team $team: maintain"
+    api PUT "orgs/$org/teams/$team/repos/$full" '{"permission": "maintain"}'
+fi
 
 # --- rulesets ------------------------------------------------------------------
 
@@ -250,7 +260,9 @@ if [[ "$protect" == yes ]]; then
     contexts="$(python3 -c 'import json, sys
 print(json.dumps([{"context": c, "integration_id": 15368} for c in sys.argv[1:]]))' "${checks[@]}")"
     owners='{"actor_id": 1, "actor_type": "OrganizationAdmin", "bypass_mode": "always"}'
-    maintainers="{\"actor_id\": $team_id, \"actor_type\": \"Team\", \"bypass_mode\": \"always\"}"
+    # without a team, only organisation owners create tags
+    maintainers=""
+    [[ -n "$team_id" ]] && maintainers=", {\"actor_id\": $team_id, \"actor_type\": \"Team\", \"bypass_mode\": \"always\"}"
 
     echo "  ruleset main: no deletion or force push; required: ${checks[*]}"
     ruleset main "$(json "{
@@ -267,11 +279,11 @@ print(json.dumps([{"context": c, "integration_id": 15368} for c in sys.argv[1:]]
         ]
     }")"
 
-    echo "  ruleset release-tags: only the $team team creates tags"
+    echo "  ruleset release-tags: only owners${team:+ and the $team team} create tags"
     ruleset release-tags "$(json "{
         \"name\": \"release-tags\", \"target\": \"tag\", \"enforcement\": \"active\",
         \"conditions\": {\"ref_name\": {\"include\": [\"refs/tags/*\"], \"exclude\": []}},
-        \"bypass_actors\": [$owners, $maintainers],
+        \"bypass_actors\": [$owners$maintainers],
         \"rules\": [{\"type\": \"creation\"}]
     }")"
 
