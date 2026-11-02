@@ -37,6 +37,9 @@ needs.
 
 ## Using a deck
 
+Decks are installed with [jvc](https://jvc.jennifer-lang.dev/), Jennifer's
+package manager:
+
 ```sh
 jvc add @deckyard/geo
 ```
