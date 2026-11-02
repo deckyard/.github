@@ -30,6 +30,12 @@
 # manifest; the repository name is taken from its homepage URL when that points
 # into the organisation (strider lives in deck-strider-frequency-converter).
 #
+# With --app the repository is a Jennifer app (an unscoped program installed
+# with `jvc app install`, such as grimoire-mermaid): it is named after the app,
+# without the deck- prefix, gets the topic jennifer-app instead of
+# jennifer-deck, and has no Pages site; its homepage is the manifest's manual
+# URL, or the repository itself.
+#
 # Usage:
 #   gh-create-project.sh [options] <name> ["description"]
 #   gh-create-project.sh [options] --deck <dir>
@@ -39,6 +45,7 @@
 #   --team SLUG       team given `maintain` (default: maintainers; "" for none)
 #   --topic T         an extra topic; repeatable
 #   --deck DIR        read name, description and keywords from DIR's manifest
+#   --app             the repository holds an app, not a deck (see above)
 #   --protect         also set the branch and tag rulesets
 #   --check NAME      a required status check for --protect; repeatable
 #                     (default: the two jobs of the shared test.yml)
@@ -53,6 +60,7 @@ topics=()
 checks=()
 deck=""
 protect=no
+kind=deck
 dry=no
 name=""
 description=""
@@ -67,6 +75,7 @@ while [[ $# -gt 0 ]]; do
         --topic) topics+=("${2:?}"); shift 2 ;;
         --deck) deck="${2:?}"; shift 2 ;;
         --protect) protect=yes; shift ;;
+        --app) kind=app; shift ;;
         --check) checks+=("${2:?}"); shift 2 ;;
         --dry-run) dry=yes; shift ;;
         -h|--help) usage ;;
@@ -85,13 +94,13 @@ command -v python3 >/dev/null || die "python3 is not installed"
 
 # --- what to create ---------------------------------------------------------
 
-# Prints repo, description and keywords (one per line after the first two)
-# from a deck manifest, whichever of the four formats it uses.
+# Prints repo, description, manual URL and keywords (one per line after the
+# first three) from a deck manifest, whichever of the four formats it uses.
 manifest_facts() {
-    python3 - "$1" "$org" <<'PY'
+    python3 - "$1" "$org" "$kind" <<'PY'
 import json, os, re, sys
 
-root, org = sys.argv[1], sys.argv[2]
+root, org, kind = sys.argv[1], sys.argv[2], sys.argv[3]
 for ext in ("toml", "yaml", "yml", "json"):
     path = os.path.join(root, "deck." + ext)
     if os.path.isfile(path):
@@ -120,32 +129,43 @@ pkg = doc.get("package", doc)
 urls = pkg.get("urls", {}) or {}
 homepage = urls.get("homepage") or pkg.get("homepage") or pkg.get("repository") or ""
 m = re.match(r"https://github\.com/%s/([\w.-]+?)(?:\.git)?/?$" % re.escape(org), homepage)
-repo = m.group(1) if m else "deck-" + str(pkg.get("name", "")).split("/")[-1]
+slug = str(pkg.get("name", "")).split("/")[-1]
+repo = m.group(1) if m else (slug if kind == "app" else "deck-" + slug)
 print(repo)
 print(str(pkg.get("description", "")).rstrip("."))
+print(urls.get("manual") or pkg.get("manual") or "")
 for k in pkg.get("keywords", []) or []:
     print(k)
 PY
 }
 
 keywords=()
+manual=""
 if [[ -n "$deck" ]]; then
     [[ -d "$deck" ]] || die "$deck is not a directory"
     mapfile -t facts < <(manifest_facts "$deck")
-    (( ${#facts[@]} >= 2 )) || die "could not read the manifest in $deck"
+    (( ${#facts[@]} >= 3 )) || die "could not read the manifest in $deck"
     [[ -n "$name" ]] || name="${facts[0]}"
     [[ -n "$description" ]] || description="${facts[1]}"
-    keywords=("${facts[@]:2}")
+    manual="${facts[2]}"
+    keywords=("${facts[@]:3}")
 fi
 [[ -n "$name" ]] || usage
-repo="deck-${name#deck-}"
-[[ "$repo" =~ ^deck-[a-z0-9][a-z0-9-]*$ ]] || die "$repo is not a valid deck repository name"
-full="$org/$repo"
-homepage="https://$org.github.io/$repo/"
+if [[ "$kind" == app ]]; then
+    repo="$name"
+    [[ "$repo" =~ ^[a-z0-9][a-z0-9-]*$ ]] || die "$repo is not a valid app repository name"
+    full="$org/$repo"
+    homepage="${manual:-https://github.com/$full}"
+else
+    repo="deck-${name#deck-}"
+    [[ "$repo" =~ ^deck-[a-z0-9][a-z0-9-]*$ ]] || die "$repo is not a valid deck repository name"
+    full="$org/$repo"
+    homepage="https://$org.github.io/$repo/"
+fi
 
 # Topics: the organisation's three, then the extras, lower-cased and
 # hyphenated as GitHub requires, without duplicates, at most twenty.
-org_topics=(jennifer-lang jennifer-deck)
+org_topics=(jennifer-lang "jennifer-$kind")
 [[ "$org" == deckyard ]] && org_topics+=(deckyard)
 mapfile -t topic_list < <(python3 - "${org_topics[@]}" \
     "${topics[@]+"${topics[@]}"}" "${keywords[@]+"${keywords[@]}"}" <<'PY'
@@ -202,7 +222,7 @@ else
 fi
 
 echo "  settings: squash only, delete merged branches, auto-merge, no wiki/projects"
-api PATCH "repos/$full" "$(json "{
+settings="$(json "{
     \"description\": $(quote "$description"),
     \"homepage\": $(quote "$homepage"),
     \"has_issues\": true,
@@ -220,6 +240,25 @@ api PATCH "repos/$full" "$(json "{
         \"secret_scanning_push_protection\": {\"status\": \"enabled\"}
     }
 }")"
+# A repository created a moment ago can accept the PATCH and keep its
+# defaults (merge commits on, merged branches kept), so read the settings
+# back and send them again until they hold.
+settings_hold() {
+    [[ "$(gh api "repos/$full" --jq '[.allow_squash_merge, .allow_merge_commit,
+        .allow_rebase_merge, .delete_branch_on_merge, .allow_auto_merge,
+        .has_wiki, .has_projects] | map(tostring) | join(" ")')" \
+        == "true false false true true false false" ]]
+}
+api PATCH "repos/$full" "$settings"
+if [[ "$dry" == no ]]; then
+    for attempt in 2 3 4 5; do
+        settings_hold && break
+        echo "  settings did not hold - retrying ($attempt/5)"
+        sleep $(( attempt * 2 ))
+        api PATCH "repos/$full" "$settings"
+    done
+    settings_hold || die "repository settings did not hold after 5 attempts"
+fi
 
 echo "  private vulnerability reporting"
 api PUT "repos/$full/private-vulnerability-reporting"
@@ -227,11 +266,13 @@ api PUT "repos/$full/private-vulnerability-reporting"
 echo "  topics: ${topic_list[*]}"
 api PUT "repos/$full/topics" "$(python3 -c 'import json, sys; print(json.dumps({"names": sys.argv[1:]}))' "${topic_list[@]}")"
 
-echo "  pages: built by GitHub Actions"
-if gh api "repos/$full/pages" >/dev/null 2>&1; then
-    api PUT "repos/$full/pages" '{"build_type": "workflow"}'
-else
-    api POST "repos/$full/pages" '{"build_type": "workflow"}'
+if [[ "$kind" == deck ]]; then
+    echo "  pages: built by GitHub Actions"
+    if gh api "repos/$full/pages" >/dev/null 2>&1; then
+        api PUT "repos/$full/pages" '{"build_type": "workflow"}'
+    else
+        api POST "repos/$full/pages" '{"build_type": "workflow"}'
+    fi
 fi
 
 if [[ -n "$team" ]]; then
