@@ -31,6 +31,7 @@ built and checked reaches every deck at once.
 | [`@deckyard/steam`](https://github.com/deckyard/deck-steam) | A friendly layer over Valve's Steam Web API |
 | [`@deckyard/strider`](https://github.com/deckyard/deck-strider-frequency-converter) | STRidER allele-frequency tables into a `forensicgenetics` frequency database |
 | [`@deckyard/tmdb`](https://github.com/deckyard/deck-tmdb) | A typed client for The Movie Database |
+| [`@deckyard/zmachine`](https://github.com/deckyard/deck-zmachine) | A Z-machine interpreter: plays Infocom and Inform games, with Quetzal saves |
 
 Each deck's README links its documentation and says which Jennifer version it
 needs.
