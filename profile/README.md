@@ -21,16 +21,23 @@ built and checked reaches every deck at once.
 | [`@deckyard/bioinformatics`](https://github.com/deckyard/deck-bioinformatics) | Sequence manipulation for DNA, RNA and protein |
 | [`@deckyard/d64`](https://github.com/deckyard/deck-d64) | Read, write, create and format Commodore 1541 D64 disk images |
 | [`@deckyard/forensicgenetics`](https://github.com/deckyard/deck-forensicgenetics) | STR match probabilities, kinship and paternity likelihood ratios, pedigrees, mtDNA / Y-STR lineage markers |
+| [`@deckyard/fsm`](https://github.com/deckyard/deck-fsm) | Finite state machines: guards, hooks, definition checks, TOML/YAML/JSON loading, Mermaid and Graphviz diagrams |
 | [`@deckyard/geo`](https://github.com/deckyard/deck-geo) | GPX, KML, KMZ, GeoJSON and GML over one point model, with geodesy, track statistics, geohashes and map tiles |
+| [`@deckyard/git`](https://github.com/deckyard/deck-git) | Git repositories through the git command line: status, history, branches and remotes, hardened for untrusted input |
+| [`@deckyard/jsonpath`](https://github.com/deckyard/deck-jsonpath) | RFC 9535 JSONPath queries, checked against the official compliance test suite |
 | [`@deckyard/jsonschema`](https://github.com/deckyard/deck-jsonschema) | Validate JSON values against JSON Schema draft 2020-12, checked against the official test suite |
+| [`@deckyard/magick`](https://github.com/deckyard/deck-magick) | Image processing through the ImageMagick 7 command line, with safe defaults for untrusted images |
 | [`@deckyard/mitoleaf`](https://github.com/deckyard/deck-mitoleaf) | The mitoLEAF mitochondrial phylogeny: haplogroup tree and nearest-haplogroup lookup |
+| [`@deckyard/money`](https://github.com/deckyard/deck-money) | Exact currency amounts in minor units: ISO 4217 currencies, rounding modes, allocation, exchange |
 | [`@deckyard/mp3`](https://github.com/deckyard/deck-mp3) | ID3v2.2/2.3/2.4 and ID3v1.1 tags, artwork, MPEG frame and VBR analysis, M3U/M3U8 playlists |
 | [`@deckyard/ngs`](https://github.com/deckyard/deck-ngs) | Streaming NGS file formats, read QC, interval arithmetic and pipeline orchestration |
+| [`@deckyard/proxmox`](https://github.com/deckyard/deck-proxmox) | A client for the Proxmox VE API: guests, power, snapshots, storage and tasks |
 | [`@deckyard/routeros`](https://github.com/deckyard/deck-routeros) | A friendly layer over the MikroTik RouterOS API |
 | [`@deckyard/sheets`](https://github.com/deckyard/deck-sheets) | ODS, XLSX and Gnumeric over one cell model, with a CSV bridge |
 | [`@deckyard/steam`](https://github.com/deckyard/deck-steam) | A friendly layer over Valve's Steam Web API |
 | [`@deckyard/strider`](https://github.com/deckyard/deck-strider-frequency-converter) | STRidER allele-frequency tables into a `forensicgenetics` frequency database |
 | [`@deckyard/tmdb`](https://github.com/deckyard/deck-tmdb) | A typed client for The Movie Database |
+| [`@deckyard/vmware`](https://github.com/deckyard/deck-vmware) | A client for the vSphere Automation REST API of vCenter: inventory and VM power |
 | [`@deckyard/zmachine`](https://github.com/deckyard/deck-zmachine) | A Z-machine interpreter: plays Infocom and Inform games, with Quetzal saves |
 
 Each deck's README links its documentation and says which Jennifer version it
