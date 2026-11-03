@@ -13,7 +13,8 @@
 #   - squash merges only, branches deleted after merge, auto-merge allowed
 #   - secret scanning, push protection, private vulnerability reporting
 #     (CONTRIBUTING.md sends security reports to the Security tab)
-#   - GitHub Pages built by Actions (docs.yml publishes the book)
+#   - GitHub Pages built by Actions (docs.yml publishes the book), its
+#     github-pages environment admitting main and release tags `N.N.N`
 #   - the maintainers team, with `maintain` permission (--team "" skips it,
 #     for an organisation without teams such as jennifer-language)
 #
@@ -273,6 +274,20 @@ if [[ "$kind" == deck ]]; then
     else
         api POST "repos/$full/pages" '{"build_type": "workflow"}'
     fi
+
+    # docs.yml deploys main and every release tag. The github-pages environment
+    # GitHub creates on the first deploy admits main only, which refuses the
+    # tag's deploy, so name both here. A rule is added only when missing.
+    echo "  pages environment: deploys from main and N.N.N tags"
+    api PUT "repos/$full/environments/github-pages" \
+        '{"deployment_branch_policy": {"protected_branches": false, "custom_branch_policies": true}}'
+    have="$(gh api "repos/$full/environments/github-pages/deployment-branch-policies" \
+        --jq '.branch_policies[] | .type + " " + .name' 2>/dev/null || true)"
+    for rule in "branch main" "tag [0-9]*.[0-9]*.[0-9]*"; do
+        grep -qxF -- "$rule" <<<"$have" && continue
+        api POST "repos/$full/environments/github-pages/deployment-branch-policies" \
+            "$(json "{\"type\": $(quote "${rule%% *}"), \"name\": $(quote "${rule#* }")}")"
+    done
 fi
 
 if [[ -n "$team" ]]; then
