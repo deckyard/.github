@@ -5,12 +5,17 @@
 # pragma-jennifer-capability: exec
 
 /**
- * Render the GitHub social preview of Deckyard decks: a 1280x640 PNG with
- * the Deckyard logo on the left and, on the right, the deck's name and the
- * description from its manifest.
+ * Render the GitHub social preview of a deck: a 1280x640 PNG with the
+ * deck's name and the description from its manifest beside a logo. The
+ * scope picks the card:
  *
- *   jennifer run tools/social-preview.j                  # every @deckyard deck
- *   jennifer run tools/social-preview.j ../geo ../git    # these decks
+ *   @deckyard   the Deckyard logo on the left, text on the right, navy
+ *   @jennifer   text on the left, the Jennifer monogram on the right, ink
+ *
+ * Other scopes are skipped.
+ *
+ *   jennifer run tools/social-preview.j                  # every deck
+ *   jennifer run tools/social-preview.j ../geo ../gotify # these decks
  *   jennifer run tools/social-preview.j --out /tmp/p ../geo
  *
  * With no deck given it walks the directories beside deckyard-org. Each
@@ -19,6 +24,10 @@
  * points to. GitHub has no API for social previews: upload each PNG under
  * the repository's Settings > General > Social preview; the script prints
  * the link.
+ *
+ * The Deckyard logo is `profile/deckyard.svg`; the Jennifer monogram is
+ * read from a jennifer-lang checkout beside the decks
+ * (`../jennifer-lang/site/logo/jennifer.svg`), or from `--jennifer-logo`.
  *
  * Text is set in DejaVu Sans, measured with the `font` module from the
  * files fontconfig names, so the SVG renderer (`rsvg-convert`, which also
@@ -40,16 +49,11 @@ import "font.j" as font;
 def const WIDTH as int init 1280;
 def const HEIGHT as int init 640;
 
-# The text column: from TEXT_X to WIDTH - MARGIN.
+# The margin, the logo's size, and the text column's width; the column
+# starts beside the logo, on whichever side the brand puts it.
 def const MARGIN as int init 96;
-def const TEXT_X as int init 528;
+def const LOGO_SIZE as int init 352;
 def const TEXT_WIDTH as int init 656;
-
-# The logo's colours (profile/deckyard.svg).
-def const NAVY as string init "#0e1f36";
-def const PAPER as string init "#f4f1ea";
-def const ORANGE as string init "#ff7a45";
-def const MUTED as string init "#9fb0c8";
 
 # Type sizes: the name shrinks from the first to the second to fit one line;
 # the description from the first to the second to fit MAX_LINES.
@@ -66,12 +70,38 @@ def struct Faces {
     bold as font.Font
 };
 
+/**
+ * How a scope's cards look.
+ *
+ * @field scope {string} e.g. `@deckyard`
+ * @field org {string} the GitHub organisation of its repositories, when a manifest names none
+ * @field logo {string} the logo's drawing, its root element's content
+ * @field viewBox {string} the logo's viewBox
+ * @field background {string} the card's colour
+ * @field text {string} the name's and the description's colour
+ * @field muted {string} the scope's colour
+ * @field accent {string} the rule's colour
+ * @field logoLeft {bool} the logo on the left, the text on the right
+ */
+def struct Brand {
+    scope as string,
+    org as string,
+    logo as string,
+    viewBox as string,
+    background as string,
+    text as string,
+    muted as string,
+    accent as string,
+    logoLeft as bool
+};
+
 /** What one card shows, and where it goes. */
 def struct Card {
     dir as string,
     scope as string,
     name as string,
     description as string,
+    org as string,
     repo as string
 };
 
@@ -169,14 +199,35 @@ func escaped(text as string) {
 }
 
 /**
+ * An SVG `<text>` element.
+ *
+ * @param x {int} its left edge
+ * @param y {int} its baseline
+ * @param size {int} the font size
+ * @param colour {string} the fill
+ * @param bold {bool} bold rather than regular
+ * @param content {string} the text, not yet escaped
+ * @return {string} the element
+ */
+func textAt(x as int, y as int, size as int, colour as string, bold as bool, content as string) {
+    def weight as string init "";
+    if ($bold) {
+        $weight = ' font-weight="bold"';
+    }
+    return '<text x="' + convert.toString($x) + '" y="' + convert.toString($y) + '" font-size="' +
+        convert.toString($size) + '"' + $weight + ' fill="' + $colour + '">' + escaped($content) +
+        "</text>";
+}
+
+/**
  * The card's SVG.
  *
  * @param faces {Faces} the faces, for measuring
+ * @param b {Brand} how the card looks
  * @param c {Card} the deck
- * @param logo {string} the logo's SVG, its root element's content
  * @return {string} the SVG document
  */
-func render(faces as Faces, c as Card, logo as string) {
+func render(faces as Faces, b as Brand, c as Card) {
     def nameSize as int init NAME_SIZE;
     while ($nameSize > NAME_MIN and widthOf($faces.bold, $c.name, $nameSize) > TEXT_WIDTH) {
         $nameSize = $nameSize - 2;
@@ -191,41 +242,45 @@ func render(faces as Faces, c as Card, logo as string) {
         fail($c.dir + ": the description needs more than " + convert.toString(MAX_LINES) +
             " lines; shorten it");
     }
+    def logoX as int init MARGIN;
+    def textX as int init MARGIN + LOGO_SIZE + 80;
+    if (not $b.logoLeft) {
+        $textX = MARGIN;
+        $logoX = WIDTH - MARGIN - LOGO_SIZE;
+    }
     def lineHeight as int init convert.toInt($textSize * 3 / 2);
     def gap as int init 40;
     # The block: scope, name, an accent rule, the description. Centred
     # vertically; y values are baselines.
     def blockHeight as int init SCOPE_SIZE + 16 + $nameSize + $gap + 6 + $gap +
         len($lines) * $lineHeight;
-    def top as int init convert.toInt((HEIGHT - $blockHeight) / 2);
-    def y as int init $top + SCOPE_SIZE;
+    def y as int init convert.toInt((HEIGHT - $blockHeight) / 2) + SCOPE_SIZE;
     def out as list of string init [];
     $out[] = '<svg xmlns="http://www.w3.org/2000/svg" width="' + convert.toString(WIDTH) +
-        '" height="' +
-        convert.toString(HEIGHT) + '" viewBox="0 0 ' + convert.toString(WIDTH) + " " +
-        convert.toString(HEIGHT) + '">';
-    $out[] = '<rect width="100%" height="100%" fill="' + NAVY + '"/>';
-    # The logo: its 256x256 viewBox scaled to 352 px, centred in the left part.
-    $out[] = '<svg x="' + convert.toString(MARGIN) +
-        '" y="144" width="352" height="352" viewBox="0 0 256 256">' + $logo + "</svg>";
+        '" height="' + convert.toString(HEIGHT) + '" viewBox="0 0 ' + convert.toString(WIDTH) +
+        " " + convert.toString(HEIGHT) + '">';
+    $out[] = '<rect width="100%" height="100%" fill="' + $b.background + '"/>';
+    $out[] = '<svg x="' + convert.toString($logoX) + '" y="' +
+        convert.toString(convert.toInt((HEIGHT - LOGO_SIZE) / 2)) + '" width="' +
+        convert.toString(LOGO_SIZE) + '" height="' + convert.toString(LOGO_SIZE) + '" viewBox="' +
+        $b.viewBox + '">' + $b.logo + "</svg>";
     $out[] = '<g font-family="DejaVu Sans">';
-    $out[] = '<text x="' + convert.toString(TEXT_X) + '" y="' + convert.toString($y) +
-        '" font-size="' +
-        convert.toString(SCOPE_SIZE) + '" fill="' + MUTED + '">' + escaped($c.scope) + "/</text>";
+    $out[] = textAt($textX, $y, SCOPE_SIZE, $b.muted, false, $c.scope + "/");
     $y = $y + 16 + $nameSize;
-    $out[] = '<text x="' + convert.toString(TEXT_X) + '" y="' + convert.toString($y) +
-        '" font-size="' +
-        convert.toString($nameSize) + '" font-weight="bold" fill="' + PAPER + '">' +
-        escaped($c.name) + "</text>";
+    $out[] = textAt($textX, $y, $nameSize, $b.text, true, $c.name);
     $y = $y + $gap;
-    $out[] = '<rect x="' + convert.toString(TEXT_X) + '" y="' + convert.toString($y) +
-        '" width="96" height="6" rx="3" fill="' + ORANGE + '"/>';
+    $out[] = '<rect x="' + convert.toString($textX) + '" y="' + convert.toString($y) +
+        '" width="96" height="6" rx="3" fill="' + $b.accent + '"/>';
     $y = $y + 6 + $gap;
     for (def line in $lines) {
         $y = $y + $lineHeight;
-        $out[] = '<text x="' + convert.toString(TEXT_X) + '" y="' +
-            convert.toString($y - $lineHeight / 4) + '" font-size="' +
-            convert.toString($textSize) + '" fill="' + PAPER + '">' + escaped($line) + "</text>";
+        $out[] = textAt(
+            $textX,
+            $y - convert.toInt($lineHeight / 4),
+            $textSize,
+            $b.text,
+            false,
+            $line);
     }
     $out[] = "</g>";
     $out[] = "</svg>";
@@ -233,19 +288,34 @@ func render(faces as Faces, c as Card, logo as string) {
 }
 
 /**
- * The logo's drawing: what sits inside its root `<svg>` element.
+ * A brand whose logo is an SVG file: its drawing (what sits inside the root
+ * `<svg>` element) and its viewBox.
  *
+ * @param b {Brand} the brand, without its logo
  * @param path {string} the logo file
- * @return {string} the drawing
+ * @return {Brand} the brand with its logo
  */
-func logoBody(path as string) {
+func withLogo(b as Brand, path as string) {
+    if (not fs.exists($path)) {
+        fail("no logo for " + $b.scope + " at " + $path);
+    }
     def svg as string init fs.readString($path);
-    def open as int init strings.indexOf($svg, ">", strings.indexOf($svg, "<svg"));
+    def start as int init strings.indexOf($svg, "<svg");
+    def open as int init strings.indexOf($svg, ">", $start);
     def close as int init strings.lastIndexOf($svg, "</svg>");
-    if ($open < 0 or $close < $open) {
+    if ($start < 0 or $open < 0 or $close < $open) {
         fail($path + " is not an SVG document");
     }
-    return $svg[$open + 1..$close];
+    def tag as string init $svg[$start..$open];
+    def at as int init strings.indexOf($tag, 'viewBox="');
+    if ($at < 0) {
+        fail($path + " has no viewBox");
+    }
+    def rest as string init $tag[$at + 9..];
+    def out as Brand init $b;
+    $out.viewBox = $rest[..strings.indexOf($rest, '"')];
+    $out.logo = $svg[$open + 1..$close];
+    return $out;
 }
 
 /**
@@ -298,30 +368,43 @@ func manifestOf(dir as string) {
 }
 
 /**
- * Read a deck's card from its manifest. A deck outside the Deckyard scope,
- * or a directory with no manifest, gives a card with an empty name.
+ * Read a deck's card from its manifest. A directory with no manifest, no
+ * description, or a scope without a brand gives a card with an empty name.
  *
  * @param dir {string} the deck's directory
+ * @param brands {map of string to Brand} the brands, by scope
  * @return {Card} the card
  */
-func cardOf(dir as string) {
-    def none as Card init Card{dir: $dir, scope: "", name: "", description: "", repo: ""};
+func cardOf(dir as string, brands as map of string to Brand) {
+    def none as Card init Card{dir: $dir, scope: "", name: "", description: "", org: "", repo: ""};
     def m as map of string to string init manifestOf($dir);
-    if (not maps.has($m, "name") or not strings.startsWith($m["name"], "@deckyard/") or
-        $m["description"] == "") {
+    if (not maps.has($m, "name") or $m["description"] == "") {
         return $none;
     }
     def full as string init $m["name"];
     def slash as int init strings.indexOf($full, "/");
-    def repo as string init "deck-" + $full[$slash + 1..];
-    if (strings.startsWith($m["homepage"], "https://github.com/deckyard/")) {
-        $repo = $m["homepage"][strings.lastIndexOf($m["homepage"], "/") + 1..];
+    if ($slash < 1 or not maps.has($brands, $full[..$slash])) {
+        return $none;
+    }
+    def scope as string init $full[..$slash];
+    def name as string init $full[$slash + 1..];
+    def org as string init $brands[$scope].org;
+    def repo as string init "deck-" + $name;
+    # https://github.com/<org>/<repo>, the repository the card is uploaded to.
+    def home as string init $m["homepage"];
+    if (strings.startsWith($home, "https://github.com/")) {
+        def parts as list of string init strings.split($home[len("https://github.com/")..], "/");
+        if (len($parts) >= 2 and $parts[0] != "" and $parts[1] != "") {
+            $org = $parts[0];
+            $repo = $parts[1];
+        }
     }
     return Card{
         dir: $dir,
-        scope: $full[..$slash],
-        name: $full[$slash + 1..],
+        scope: $scope,
+        name: $name,
         description: $m["description"],
+        org: $org,
         repo: $repo
     };
 }
@@ -340,14 +423,20 @@ if ($here == "tools") {
     $orgDir = $here[..len($here) - 6];
 }
 def outDir as string init $orgDir + "/previews";
+def jenniferLogo as string init $orgDir + "/../../jennifer-lang/site/logo/jennifer.svg";
 def decks as list of string init [];
 def i as int init 1;
 while ($i < len(os.ARGS)) {
-    if (os.ARGS[$i] == "--out" and $i + 1 < len(os.ARGS)) {
-        $outDir = os.ARGS[$i + 1];
+    def arg as string init os.ARGS[$i];
+    if (($arg == "--out" or $arg == "--jennifer-logo") and $i + 1 < len(os.ARGS)) {
+        if ($arg == "--out") {
+            $outDir = os.ARGS[$i + 1];
+        } else {
+            $jenniferLogo = os.ARGS[$i + 1];
+        }
         $i = $i + 2;
     } else {
-        $decks[] = os.ARGS[$i];
+        $decks[] = $arg;
         $i = $i + 1;
     }
 }
@@ -360,24 +449,54 @@ if (not $explicit) {
     }
 }
 
+# The palettes are the logos' own: Deckyard's navy, paper and orange
+# (profile/deckyard.svg); Jennifer's ink, paper and coral, with the
+# monogram's aubergine tile standing out against the ink.
+def brands as map of string to Brand init {
+    "@deckyard": withLogo(
+        Brand{
+            scope: "@deckyard",
+            org: "deckyard",
+            logo: "",
+            viewBox: "",
+            background: "#0e1f36",
+            text: "#f4f1ea",
+            muted: "#9fb0c8",
+            accent: "#ff7a45",
+            logoLeft: true
+        },
+        $orgDir + "/profile/deckyard.svg"),
+    "@jennifer": withLogo(
+        Brand{
+            scope: "@jennifer",
+            org: "jennifer-language",
+            logo: "",
+            viewBox: "",
+            background: "#241c29",
+            text: "#f2ece6",
+            muted: "#b3a5ba",
+            accent: "#ec5c4b",
+            logoLeft: false
+        },
+        $jenniferLogo)
+};
 def faces as Faces init Faces{
     regular: font.open(fontFile("DejaVu Sans")),
     bold: font.open(fontFile("DejaVu Sans:bold"))
 };
-def logo as string init logoBody($orgDir + "/profile/deckyard.svg");
 fs.mkdirAll($outDir);
 def made as int init 0;
 for (def dir in $decks) {
-    def c as Card init cardOf($dir);
+    def c as Card init cardOf($dir, $brands);
     if ($c.name == "") {
         if ($explicit) {
-            io.eprintf("skipped %s: no @deckyard deck.toml\n", $dir);
+            io.eprintf("skipped %s: no @deckyard or @jennifer manifest with a description\n", $dir);
         }
         continue;
     }
     def svgPath as string init $outDir + "/" + $c.repo + ".svg";
     def pngPath as string init $outDir + "/" + $c.repo + ".png";
-    fs.writeString($svgPath, render($faces, $c, $logo));
+    fs.writeString($svgPath, render($faces, $brands[$c.scope], $c));
     def r as os.Result init os.run([
         "rsvg-convert",
         "-w",
@@ -391,7 +510,7 @@ for (def dir in $decks) {
     if ($r.exitCode != 0) {
         fail("rsvg-convert failed for " + $svgPath + ": " + strings.trim($r.stderr));
     }
-    io.printf("%s  upload at https://github.com/deckyard/%s/settings\n", $pngPath, $c.repo);
+    io.printf("%s  upload at https://github.com/%s/%s/settings\n", $pngPath, $c.org, $c.repo);
     $made = $made + 1;
 }
 io.printf("%d preview(s) in %s\n", $made, $outDir);
