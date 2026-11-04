@@ -21,6 +21,7 @@ built and checked reaches every deck at once.
 | [`@deckyard/bioinformatics`](https://github.com/deckyard/deck-bioinformatics) | Sequence manipulation for DNA, RNA and protein |
 | [`@deckyard/d64`](https://github.com/deckyard/deck-d64) | Read, write, create and format Commodore 1541 D64 disk images |
 | [`@deckyard/forensicgenetics`](https://github.com/deckyard/deck-forensicgenetics) | STR match probabilities, kinship and paternity likelihood ratios, pedigrees, mtDNA / Y-STR lineage markers |
+| [`@deckyard/forgejo`](https://github.com/deckyard/deck-forgejo) | Forgejo REST API (Codeberg or self-hosted): repositories, issues, pull requests, releases with assets, files |
 | [`@deckyard/fsm`](https://github.com/deckyard/deck-fsm) | Finite state machines: guards, hooks, definition checks, TOML/YAML/JSON loading, Mermaid and Graphviz diagrams |
 | [`@deckyard/geo`](https://github.com/deckyard/deck-geo) | GPX, KML, KMZ, GeoJSON and GML over one point model, with geodesy, track statistics, geohashes and map tiles |
 | [`@deckyard/git`](https://github.com/deckyard/deck-git) | Git repositories through the git command line: status, history, branches and remotes, hardened for untrusted input |
@@ -36,7 +37,9 @@ built and checked reaches every deck at once.
 | [`@deckyard/sheets`](https://github.com/deckyard/deck-sheets) | ODS, XLSX and Gnumeric over one cell model, with a CSV bridge |
 | [`@deckyard/steam`](https://github.com/deckyard/deck-steam) | A friendly layer over Valve's Steam Web API |
 | [`@deckyard/strider`](https://github.com/deckyard/deck-strider-frequency-converter) | STRidER allele-frequency tables into a `forensicgenetics` frequency database |
+| [`@deckyard/synology`](https://github.com/deckyard/deck-synology) | Synology DSM Web API: File Station, virtual machines, users and shares, administration, Container Manager |
 | [`@deckyard/tmdb`](https://github.com/deckyard/deck-tmdb) | A typed client for The Movie Database |
+| [`@deckyard/unraid`](https://github.com/deckyard/deck-unraid) | A client for the Unraid GraphQL API: array, disks, shares, Docker containers, VMs, notifications |
 | [`@deckyard/vmware`](https://github.com/deckyard/deck-vmware) | A client for the vSphere Automation REST API of vCenter: inventory and VM power |
 | [`@deckyard/zmachine`](https://github.com/deckyard/deck-zmachine) | A Z-machine interpreter: plays Infocom and Inform games, with Quetzal saves |
 
