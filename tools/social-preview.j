@@ -1,7 +1,7 @@
 #!/usr/bin/env -S jennifer run
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.25.0
+# pragma-jennifer-version: >=0.26.0
 # pragma-jennifer-capability: exec
 
 /**
@@ -18,16 +18,17 @@
  *   jennifer run tools/social-preview.j ../geo ../gotify # these decks
  *   jennifer run tools/social-preview.j --out /tmp/p ../geo
  *
- * With no deck given it walks the directories beside deckyard-org. Each
+ * With no deck given it walks the directories beside profile. Each
  * deck gets `<out>/<repo>.svg` and `<out>/<repo>.png` (default
- * `deckyard-org/previews`), named after the repository its homepage URL
+ * `profile/previews`), named after the repository its homepage URL
  * points to. GitHub has no API for social previews: upload each PNG under
  * the repository's Settings > General > Social preview; the script prints
  * the link.
  *
  * The Deckyard logo is `profile/deckyard.svg`; the Jennifer monogram is
- * read from a jennifer-lang checkout beside the decks
- * (`../jennifer-lang/site/logo/jennifer.svg`), or from `--jennifer-logo`.
+ * read from the `jennifer` checkout two levels up
+ * (`../../jennifer/site/logo/jennifer.svg` from profile), or from
+ * `--jennifer-logo`.
  *
  * Text is set in DejaVu Sans, measured with the `font` module from the
  * files fontconfig names, so the SVG renderer (`rsvg-convert`, which also
@@ -423,7 +424,7 @@ if ($here == "tools") {
     $orgDir = $here[..len($here) - 6];
 }
 def outDir as string init $orgDir + "/previews";
-def jenniferLogo as string init $orgDir + "/../../jennifer-lang/site/logo/jennifer.svg";
+def jenniferLogo as string init $orgDir + "/../../jennifer/site/logo/jennifer.svg";
 def decks as list of string init [];
 def i as int init 1;
 while ($i < len(os.ARGS)) {
