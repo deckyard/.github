@@ -18,6 +18,7 @@ built and checked reaches every deck at once.
 
 | Deck | What it does |
 |---|---|
+| [`@deckyard/abif`](https://github.com/deckyard/deck-abif) | Applied Biosystems ABIF files: Sanger traces (.ab1), fragment-analysis runs (.fsa) and 3500 HID runs (.hid), with traces, dyes, base calls and run metadata |
 | [`@deckyard/astm`](https://github.com/deckyard/deck-astm) | The ASTM protocol of clinical lab instruments (CLSI LIS01-A2 / LIS02-A2): results, orders and host queries over TCP or serial |
 | [`@deckyard/bioinformatics`](https://github.com/deckyard/deck-bioinformatics) | Sequence manipulation for DNA, RNA and protein |
 | [`@deckyard/d64`](https://github.com/deckyard/deck-d64) | Read, write, create and format Commodore 1541 D64 disk images |
