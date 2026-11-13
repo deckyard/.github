@@ -18,14 +18,18 @@ built and checked reaches every deck at once.
 
 | Deck | What it does |
 |---|---|
+| [`@deckyard/astm`](https://github.com/deckyard/deck-astm) | The ASTM protocol of clinical lab instruments (CLSI LIS01-A2 / LIS02-A2): results, orders and host queries over TCP or serial |
 | [`@deckyard/bioinformatics`](https://github.com/deckyard/deck-bioinformatics) | Sequence manipulation for DNA, RNA and protein |
 | [`@deckyard/d64`](https://github.com/deckyard/deck-d64) | Read, write, create and format Commodore 1541 D64 disk images |
 | [`@deckyard/escl`](https://github.com/deckyard/deck-escl) | Network document scanners over eSCL (AirScan, Mopria): discovery, capabilities, scans to pages, files or PDF |
+| [`@deckyard/fhir`](https://github.com/deckyard/deck-fhir) | An HL7 FHIR R4 / R5 REST client: search with paging, versioned updates, transactions, operations, SMART backend services |
 | [`@deckyard/forensicgenetics`](https://github.com/deckyard/deck-forensicgenetics) | STR match probabilities, kinship and paternity likelihood ratios, pedigrees, mtDNA / Y-STR lineage markers |
 | [`@deckyard/forgejo`](https://github.com/deckyard/deck-forgejo) | Forgejo REST API (Codeberg or self-hosted): repositories, issues, pull requests, releases with assets, files |
 | [`@deckyard/fsm`](https://github.com/deckyard/deck-fsm) | Finite state machines: guards, hooks, definition checks, TOML/YAML/JSON loading, Mermaid and Graphviz diagrams |
 | [`@deckyard/geo`](https://github.com/deckyard/deck-geo) | GPX, KML, KMZ, GeoJSON and GML over one point model, with geodesy, track statistics, geohashes and map tiles |
 | [`@deckyard/git`](https://github.com/deckyard/deck-git) | Git repositories through the git command line: status, history, branches and remotes, hardened for untrusted input |
+| [`@deckyard/hl7`](https://github.com/deckyard/deck-hl7) | HL7 v2 messages: parse, read and build with terser paths, acknowledgements, and an MLLP client and server |
+| [`@deckyard/jellyfin`](https://github.com/deckyard/deck-jellyfin) | A client for the Jellyfin media server: libraries, search, resume and next up, played marks, images, users, tasks, sessions |
 | [`@deckyard/jsonpath`](https://github.com/deckyard/deck-jsonpath) | RFC 9535 JSONPath queries, checked against the official compliance test suite |
 | [`@deckyard/jsonschema`](https://github.com/deckyard/deck-jsonschema) | Validate JSON values against JSON Schema draft 2020-12, checked against the official test suite |
 | [`@deckyard/koofr`](https://github.com/deckyard/deck-koofr) | A client for the Koofr cloud storage API: mounts, files, search, public links, receivers and the trash |
@@ -44,6 +48,8 @@ built and checked reaches every deck at once.
 | [`@deckyard/synology`](https://github.com/deckyard/deck-synology) | Synology DSM Web API: File Station, virtual machines, users and shares, administration, Container Manager |
 | [`@deckyard/tmdb`](https://github.com/deckyard/deck-tmdb) | A typed client for The Movie Database |
 | [`@deckyard/unraid`](https://github.com/deckyard/deck-unraid) | A client for the Unraid GraphQL API: array, disks, shares, Docker containers, VMs, notifications |
+| [`@deckyard/virtualbox`](https://github.com/deckyard/deck-virtualbox) | Oracle VirtualBox 7 through VBoxManage: machines, power, snapshots, clones, OVA import and export, guest control |
+| [`@deckyard/virtualboxws`](https://github.com/deckyard/deck-virtualboxws) | Oracle VirtualBox 7 through its SOAP web service: machines, power, snapshots, clones, appliances, guest properties |
 | [`@deckyard/vmware`](https://github.com/deckyard/deck-vmware) | A client for the vSphere Automation REST API of vCenter: inventory and VM power |
 | [`@deckyard/zmachine`](https://github.com/deckyard/deck-zmachine) | A Z-machine interpreter: plays Infocom and Inform games, with Quetzal saves |
 
