@@ -20,6 +20,7 @@ built and checked reaches every deck at once.
 |---|---|
 | [`@deckyard/bioinformatics`](https://github.com/deckyard/deck-bioinformatics) | Sequence manipulation for DNA, RNA and protein |
 | [`@deckyard/d64`](https://github.com/deckyard/deck-d64) | Read, write, create and format Commodore 1541 D64 disk images |
+| [`@deckyard/escl`](https://github.com/deckyard/deck-escl) | Network document scanners over eSCL (AirScan, Mopria): discovery, capabilities, scans to pages, files or PDF |
 | [`@deckyard/forensicgenetics`](https://github.com/deckyard/deck-forensicgenetics) | STR match probabilities, kinship and paternity likelihood ratios, pedigrees, mtDNA / Y-STR lineage markers |
 | [`@deckyard/forgejo`](https://github.com/deckyard/deck-forgejo) | Forgejo REST API (Codeberg or self-hosted): repositories, issues, pull requests, releases with assets, files |
 | [`@deckyard/fsm`](https://github.com/deckyard/deck-fsm) | Finite state machines: guards, hooks, definition checks, TOML/YAML/JSON loading, Mermaid and Graphviz diagrams |
@@ -27,6 +28,7 @@ built and checked reaches every deck at once.
 | [`@deckyard/git`](https://github.com/deckyard/deck-git) | Git repositories through the git command line: status, history, branches and remotes, hardened for untrusted input |
 | [`@deckyard/jsonpath`](https://github.com/deckyard/deck-jsonpath) | RFC 9535 JSONPath queries, checked against the official compliance test suite |
 | [`@deckyard/jsonschema`](https://github.com/deckyard/deck-jsonschema) | Validate JSON values against JSON Schema draft 2020-12, checked against the official test suite |
+| [`@deckyard/koofr`](https://github.com/deckyard/deck-koofr) | A client for the Koofr cloud storage API: mounts, files, search, public links, receivers and the trash |
 | [`@deckyard/magick`](https://github.com/deckyard/deck-magick) | Image processing through the ImageMagick 7 command line, with safe defaults for untrusted images |
 | [`@deckyard/mitoleaf`](https://github.com/deckyard/deck-mitoleaf) | The mitoLEAF mitochondrial phylogeny: haplogroup tree and nearest-haplogroup lookup |
 | [`@deckyard/money`](https://github.com/deckyard/deck-money) | Exact currency amounts in minor units: ISO 4217 currencies, rounding modes, allocation, exchange |
@@ -34,6 +36,8 @@ built and checked reaches every deck at once.
 | [`@deckyard/ngs`](https://github.com/deckyard/deck-ngs) | Streaming NGS file formats, read QC, interval arithmetic and pipeline orchestration |
 | [`@deckyard/proxmox`](https://github.com/deckyard/deck-proxmox) | A client for the Proxmox VE API: guests, power, snapshots, storage and tasks |
 | [`@deckyard/routeros`](https://github.com/deckyard/deck-routeros) | A friendly layer over the MikroTik RouterOS API |
+| [`@deckyard/seafile`](https://github.com/deckyard/deck-seafile) | A client for the Seafile Web API: libraries, files, links, trash, tokens and search |
+| [`@deckyard/sealbox`](https://github.com/deckyard/deck-sealbox) | One-call encryption formats on top of `crypto`: sealed boxes, encrypt-then-MAC, Fernet |
 | [`@deckyard/sheets`](https://github.com/deckyard/deck-sheets) | ODS, XLSX and Gnumeric over one cell model, with a CSV bridge |
 | [`@deckyard/steam`](https://github.com/deckyard/deck-steam) | A friendly layer over Valve's Steam Web API |
 | [`@deckyard/strider`](https://github.com/deckyard/deck-strider-frequency-converter) | STRidER allele-frequency tables into a `forensicgenetics` frequency database |
