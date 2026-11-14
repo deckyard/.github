@@ -54,6 +54,7 @@ built and checked reaches every deck at once.
 | [`@deckyard/synology`](https://github.com/deckyard/deck-synology) | Synology DSM Web API: File Station, virtual machines, users and shares, administration, Container Manager |
 | [`@deckyard/tmdb`](https://github.com/deckyard/deck-tmdb) | A typed client for The Movie Database |
 | [`@deckyard/unraid`](https://github.com/deckyard/deck-unraid) | A client for the Unraid GraphQL API: array, disks, shares, Docker containers, VMs, notifications |
+| [`@deckyard/vies`](https://github.com/deckyard/deck-vies) | EU VAT number validation through the European Commission's VIES service, with offline syntax checks and a consultation number as proof |
 | [`@deckyard/virtualbox`](https://github.com/deckyard/deck-virtualbox) | Oracle VirtualBox 7 through VBoxManage: machines, power, snapshots, clones, OVA import and export, guest control |
 | [`@deckyard/virtualboxws`](https://github.com/deckyard/deck-virtualboxws) | Oracle VirtualBox 7 through its SOAP web service: machines, power, snapshots, clones, appliances, guest properties |
 | [`@deckyard/vmware`](https://github.com/deckyard/deck-vmware) | A client for the vSphere Automation REST API of vCenter: inventory and VM power |
