@@ -23,6 +23,8 @@ built and checked reaches every deck at once.
 | [`@deckyard/bioinformatics`](https://github.com/deckyard/deck-bioinformatics) | Sequence manipulation for DNA, RNA and protein |
 | [`@deckyard/codehost`](https://github.com/deckyard/deck-codehost) | One API over GitHub, GitLab and Forgejo: repositories, issues, pull and merge requests, releases, branches, tags, files and commit statuses |
 | [`@deckyard/d64`](https://github.com/deckyard/deck-d64) | Read, write, create and format Commodore 1541 D64 disk images |
+| [`@deckyard/docker`](https://github.com/deckyard/deck-docker) | A client for the Docker Engine API (and Podman's): containers, images, networks, volumes, exec and system |
+| [`@deckyard/epub`](https://github.com/deckyard/deck-epub) | Read and write EPUB books: metadata, chapters, table of contents, images and styles |
 | [`@deckyard/escl`](https://github.com/deckyard/deck-escl) | Network document scanners over eSCL (AirScan, Mopria): discovery, capabilities, scans to pages, files or PDF |
 | [`@deckyard/fhir`](https://github.com/deckyard/deck-fhir) | An HL7 FHIR R4 / R5 REST client: search with paging, versioned updates, transactions, operations, SMART backend services |
 | [`@deckyard/forensicgenetics`](https://github.com/deckyard/deck-forensicgenetics) | STR match probabilities, kinship and paternity likelihood ratios, pedigrees, mtDNA / Y-STR lineage markers |
@@ -43,6 +45,7 @@ built and checked reaches every deck at once.
 | [`@deckyard/money`](https://github.com/deckyard/deck-money) | Exact currency amounts in minor units: ISO 4217 currencies, rounding modes, allocation, exchange |
 | [`@deckyard/mp3`](https://github.com/deckyard/deck-mp3) | ID3v2.2/2.3/2.4 and ID3v1.1 tags, artwork, MPEG frame and VBR analysis, M3U/M3U8 playlists |
 | [`@deckyard/ngs`](https://github.com/deckyard/deck-ngs) | Streaming NGS file formats, read QC, interval arithmetic and pipeline orchestration |
+| [`@deckyard/onvif`](https://github.com/deckyard/deck-onvif) | IP cameras and NVRs over ONVIF: discovery, device, media streams and snapshots, PTZ, imaging and events |
 | [`@deckyard/proxmox`](https://github.com/deckyard/deck-proxmox) | A client for the Proxmox VE API: guests, power, snapshots, storage and tasks |
 | [`@deckyard/routeros`](https://github.com/deckyard/deck-routeros) | A friendly layer over the MikroTik RouterOS API |
 | [`@deckyard/seafile`](https://github.com/deckyard/deck-seafile) | A client for the Seafile Web API: libraries, files, links, trash, tokens and search |
