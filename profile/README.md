@@ -10,9 +10,19 @@ maintained by the community. It is **not part of the Jennifer project**: the
 project ships the language and its standard library, and Deckyard looks after
 the decks around it.
 
-Every deck here has a named maintainer, a test suite, and documentation that CI
-checks against the code. They all share one CI layer, so a fix to how decks are
-built and checked reaches every deck at once.
+Deckyard is **community-based, but curated**. The `@deckyard` scope is a
+collection held to a high standard, not an open shelf: a deck joins only after
+review, and only when it meets every requirement below and keeps meeting them.
+
+- a named maintainer who uses what the deck wraps;
+- a test suite that runs in CI without accounts or network, and checks of the
+  requests a client sends, not only of the answers it parses;
+- documentation that CI checks against the code, with every export in a
+  cheatsheet;
+- strict input validation, typed errors and a size cap and deadline on
+  everything read from outside;
+- the shared Deckyard CI layer, so a fix to how decks are built and checked
+  reaches every deck at once.
 
 ## Decks
 
@@ -79,13 +89,32 @@ jvc add @deckyard/geo
 import "@deckyard/geo/" as geo;
 ```
 
+## Publishing your own deck
+
+You do not need Deckyard to release a deck. Put it in a public GitHub
+repository, claim the scope matching your GitHub username (or one of your
+organisations), tag the release with the manifest's version and publish it to
+the [registry](https://registry.jennifer-lang.dev) with jvc:
+
+```sh
+jvc login
+jvc claim yourname
+git tag 0.1.0 && git push origin 0.1.0
+jvc publish
+```
+
+`jvc publish` runs the same local quality gate (lint, tests, docblocks) and
+publishes the tagged commit; anyone can then `jvc add @yourname/yourdeck`.
+That is the right path for most decks. Propose a deck for `@deckyard` only
+when it is meant to be maintained to the standard above for the long term.
+
 ## Getting involved
 
 Every deck welcomes co-maintainers, and some are looking for one - see the
 `help wanted` label. Fixes, tests and documentation are welcome everywhere.
 [CONTRIBUTING.md](https://github.com/deckyard/.github/blob/main/CONTRIBUTING.md)
-explains how a deck is maintained, how to propose a new one, and what happens
-to a deck that loses its maintainer.
+explains how a deck is maintained, how to propose a new one for review, and
+what happens to a deck that loses its maintainer.
 
 Report a security problem privately through the deck's **Security** tab, not as
 a public issue.
