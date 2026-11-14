@@ -21,14 +21,18 @@ built and checked reaches every deck at once.
 | [`@deckyard/abif`](https://github.com/deckyard/deck-abif) | Applied Biosystems ABIF files: Sanger traces (.ab1), fragment-analysis runs (.fsa) and 3500 HID runs (.hid), with traces, dyes, base calls and run metadata |
 | [`@deckyard/astm`](https://github.com/deckyard/deck-astm) | The ASTM protocol of clinical lab instruments (CLSI LIS01-A2 / LIS02-A2): results, orders and host queries over TCP or serial |
 | [`@deckyard/bioinformatics`](https://github.com/deckyard/deck-bioinformatics) | Sequence manipulation for DNA, RNA and protein |
+| [`@deckyard/codehost`](https://github.com/deckyard/deck-codehost) | One API over GitHub, GitLab and Forgejo: repositories, issues, pull and merge requests, releases, branches, tags, files and commit statuses |
 | [`@deckyard/d64`](https://github.com/deckyard/deck-d64) | Read, write, create and format Commodore 1541 D64 disk images |
 | [`@deckyard/escl`](https://github.com/deckyard/deck-escl) | Network document scanners over eSCL (AirScan, Mopria): discovery, capabilities, scans to pages, files or PDF |
 | [`@deckyard/fhir`](https://github.com/deckyard/deck-fhir) | An HL7 FHIR R4 / R5 REST client: search with paging, versioned updates, transactions, operations, SMART backend services |
 | [`@deckyard/forensicgenetics`](https://github.com/deckyard/deck-forensicgenetics) | STR match probabilities, kinship and paternity likelihood ratios, pedigrees, mtDNA / Y-STR lineage markers |
 | [`@deckyard/forgejo`](https://github.com/deckyard/deck-forgejo) | Forgejo REST API (Codeberg or self-hosted): repositories, issues, pull requests, releases with assets, files |
+| [`@deckyard/frigate`](https://github.com/deckyard/deck-frigate) | Frigate NVR REST API: events, review items, recordings, clips and snapshots, exports, camera switches, config and stats |
 | [`@deckyard/fsm`](https://github.com/deckyard/deck-fsm) | Finite state machines: guards, hooks, definition checks, TOML/YAML/JSON loading, Mermaid and Graphviz diagrams |
 | [`@deckyard/geo`](https://github.com/deckyard/deck-geo) | GPX, KML, KMZ, GeoJSON and GML over one point model, with geodesy, track statistics, geohashes and map tiles |
 | [`@deckyard/git`](https://github.com/deckyard/deck-git) | Git repositories through the git command line: status, history, branches and remotes, hardened for untrusted input |
+| [`@deckyard/github`](https://github.com/deckyard/deck-github) | A client for the GitHub REST and GraphQL API: repositories, issues, pull requests, releases with assets, branches, tags, files and Actions |
+| [`@deckyard/gitlab`](https://github.com/deckyard/deck-gitlab) | A client for the GitLab REST and GraphQL API: projects, issues, merge requests, pipelines, releases, branches, tags and files |
 | [`@deckyard/hl7`](https://github.com/deckyard/deck-hl7) | HL7 v2 messages: parse, read and build with terser paths, acknowledgements, and an MLLP client and server |
 | [`@deckyard/jellyfin`](https://github.com/deckyard/deck-jellyfin) | A client for the Jellyfin media server: libraries, search, resume and next up, played marks, images, users, tasks, sessions |
 | [`@deckyard/jsonpath`](https://github.com/deckyard/deck-jsonpath) | RFC 9535 JSONPath queries, checked against the official compliance test suite |
@@ -44,6 +48,7 @@ built and checked reaches every deck at once.
 | [`@deckyard/seafile`](https://github.com/deckyard/deck-seafile) | A client for the Seafile Web API: libraries, files, links, trash, tokens and search |
 | [`@deckyard/sealbox`](https://github.com/deckyard/deck-sealbox) | One-call encryption formats on top of `crypto`: sealed boxes, encrypt-then-MAC, Fernet |
 | [`@deckyard/sheets`](https://github.com/deckyard/deck-sheets) | ODS, XLSX and Gnumeric over one cell model, with a CSV bridge |
+| [`@deckyard/statfiles`](https://github.com/deckyard/deck-statfiles) | Readers for SPSS, Stata and SAS data files: .sav, .zsav, .por, .dta, .xpt and .sas7bdat with value labels and missing codes |
 | [`@deckyard/steam`](https://github.com/deckyard/deck-steam) | A friendly layer over Valve's Steam Web API |
 | [`@deckyard/strider`](https://github.com/deckyard/deck-strider-frequency-converter) | STRidER allele-frequency tables into a `forensicgenetics` frequency database |
 | [`@deckyard/synology`](https://github.com/deckyard/deck-synology) | Synology DSM Web API: File Station, virtual machines, users and shares, administration, Container Manager |
