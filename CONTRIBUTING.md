@@ -1,8 +1,13 @@
 # Contributing to Deckyard
 
 Deckyard is a community organisation for Jennifer decks. It is not part of the
-Jennifer project. These rules apply to every repository in the organisation
-unless a repository's own `CONTRIBUTING.md` adds to them.
+Jennifer project. It is **community-based, but curated**: the `@deckyard`
+scope is a reviewed collection held to a high standard, not a place to publish
+any deck. These rules apply to every repository in the organisation unless a
+repository's own `CONTRIBUTING.md` adds to them.
+
+To release a deck of your own, you do not need Deckyard: see
+[Publishing outside Deckyard](#publishing-outside-deckyard).
 
 ## Every deck has a maintainer
 
@@ -46,6 +51,25 @@ formatting, lint, headers, test overlays, test coverage of every export,
 documentation against the code, and the examples. Every behaviour change comes
 with a test, and every new or changed export with an updated cheatsheet entry.
 
+## What a Deckyard deck must meet
+
+A deck is accepted only when it meets all of these, and stays only while it
+keeps meeting them:
+
+- **A maintainer** who uses what the deck wraps, and who keeps CI green on the
+  current Jennifer release.
+- **Tests that run in CI without accounts or network.** A client is tested
+  against a local fake that checks the requests it sends, not only the answers
+  it parses, and every export is covered.
+- **Documentation checked against the code:** a guide per area, every export
+  in the cheatsheet, examples that CI runs or at least parses.
+- **Strict handling of input:** a caller's malformed input is refused before
+  anything is sent; errors are one typed struct per deck, with the generic
+  kinds (`limit`, `timeout`, `closed`, `cancelled`) passed on; everything read
+  from outside has a size cap and a deadline; no credential ever appears in a
+  message or URL.
+- **The shared CI layer** described above, unmodified.
+
 ## Proposing a new deck
 
 Open an issue in this `.github` repository: **Propose a new deck** in any
@@ -58,12 +82,38 @@ Deckyard repository's issue chooser opens one with these headings:
 4. **Its outside dependencies:** services, accounts, API keys, capabilities
    (`net`, `exec`, `sql`). A deck that wraps one vendor's service needs a
    maintainer who uses that service.
+5. **Where it stands:** a link to its repository and to a release under your
+   own scope, if there is one, and how it meets the requirements above.
+
+The organisation owners review the proposal against those requirements. A deck
+that is useful but not ready is better published under your own scope first;
+a working, released deck is the strongest proposal.
 
 Accepted decks are created from the template under the `@deckyard` scope, in a
 repository named `deck-<slug>`. An organisation owner creates the repository
 with `tools/gh-create-project.sh` in this repository, which also sets the
 organisation's usual settings, and runs it again with `--protect` after the
 first push.
+
+## Publishing outside Deckyard
+
+Most decks do not need to be in Deckyard. Anyone can publish a deck to the
+[registry](https://registry.jennifer-lang.dev) under their own scope: put it in
+a public GitHub repository, claim the scope matching your GitHub username (or
+one of your organisations), tag the release with the manifest's version, and
+publish with jvc:
+
+```sh
+jvc login
+jvc claim yourname
+git tag 0.1.0 && git push origin 0.1.0
+jvc publish
+```
+
+`jvc publish` runs the quality gate locally (lint, tests, docblocks) and
+publishes the tagged commit; others install it with `jvc add
+@yourname/yourdeck`. Starting from the template repository is optional, but
+gives you the same checks Deckyard decks run.
 
 ## When a deck loses its maintainer
 
