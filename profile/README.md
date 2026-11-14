@@ -29,6 +29,7 @@ review, and only when it meets every requirement below and keeps meeting them.
 | Deck | What it does |
 |---|---|
 | [`@deckyard/abif`](https://github.com/deckyard/deck-abif) | Applied Biosystems ABIF files: Sanger traces (.ab1), fragment-analysis runs (.fsa) and 3500 HID runs (.hid), with traces, dyes, base calls and run metadata |
+| [`@deckyard/anthropic`](https://github.com/deckyard/deck-anthropic) | A client for Anthropic's Claude Messages API: tool use, thinking, prompt caching, token counting and message batches |
 | [`@deckyard/astm`](https://github.com/deckyard/deck-astm) | The ASTM protocol of clinical lab instruments (CLSI LIS01-A2 / LIS02-A2): results, orders and host queries over TCP or serial |
 | [`@deckyard/bioinformatics`](https://github.com/deckyard/deck-bioinformatics) | Sequence manipulation for DNA, RNA and protein |
 | [`@deckyard/codehost`](https://github.com/deckyard/deck-codehost) | One API over GitHub, GitLab and Forgejo: repositories, issues, pull and merge requests, releases, branches, tags, files and commit statuses |
@@ -41,6 +42,7 @@ review, and only when it meets every requirement below and keeps meeting them.
 | [`@deckyard/forgejo`](https://github.com/deckyard/deck-forgejo) | Forgejo REST API (Codeberg or self-hosted): repositories, issues, pull requests, releases with assets, files |
 | [`@deckyard/frigate`](https://github.com/deckyard/deck-frigate) | Frigate NVR REST API: events, review items, recordings, clips and snapshots, exports, camera switches, config and stats |
 | [`@deckyard/fsm`](https://github.com/deckyard/deck-fsm) | Finite state machines: guards, hooks, definition checks, TOML/YAML/JSON loading, Mermaid and Graphviz diagrams |
+| [`@deckyard/gemini`](https://github.com/deckyard/deck-gemini) | A client for the Google Gemini API: generate content with tools, structured output and thinking, embeddings, files, context caching |
 | [`@deckyard/geo`](https://github.com/deckyard/deck-geo) | GPX, KML, KMZ, GeoJSON and GML over one point model, with geodesy, track statistics, geohashes and map tiles |
 | [`@deckyard/git`](https://github.com/deckyard/deck-git) | Git repositories through the git command line: status, history, branches and remotes, hardened for untrusted input |
 | [`@deckyard/github`](https://github.com/deckyard/deck-github) | A client for the GitHub REST and GraphQL API: repositories, issues, pull requests, releases with assets, branches, tags, files and Actions |
@@ -56,6 +58,7 @@ review, and only when it meets every requirement below and keeps meeting them.
 | [`@deckyard/mp3`](https://github.com/deckyard/deck-mp3) | ID3v2.2/2.3/2.4 and ID3v1.1 tags, artwork, MPEG frame and VBR analysis, M3U/M3U8 playlists |
 | [`@deckyard/ngs`](https://github.com/deckyard/deck-ngs) | Streaming NGS file formats, read QC, interval arithmetic and pipeline orchestration |
 | [`@deckyard/onvif`](https://github.com/deckyard/deck-onvif) | IP cameras and NVRs over ONVIF: discovery, device, media streams and snapshots, PTZ, imaging and events |
+| [`@deckyard/openai`](https://github.com/deckyard/deck-openai) | A client for OpenAI-compatible APIs (OpenAI, Ollama, vLLM, OpenRouter, Azure): chat with tools and structured output, embeddings, models |
 | [`@deckyard/proxmox`](https://github.com/deckyard/deck-proxmox) | A client for the Proxmox VE API: guests, power, snapshots, storage and tasks |
 | [`@deckyard/routeros`](https://github.com/deckyard/deck-routeros) | A friendly layer over the MikroTik RouterOS API |
 | [`@deckyard/seafile`](https://github.com/deckyard/deck-seafile) | A client for the Seafile Web API: libraries, files, links, trash, tokens and search |
