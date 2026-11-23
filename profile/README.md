@@ -109,15 +109,16 @@ jvc publish
 
 `jvc publish` runs the same local quality gate (lint, tests, docblocks) and
 publishes the tagged commit; anyone can then `jvc add @yourname/yourdeck`.
-That is the right path for most decks. Propose a deck for `@deckyard` only
-when it is meant to be maintained to the standard above for the long term.
+That is the right path for most decks, and where every new deck starts. A
+deck is promoted to `@deckyard` only when it has a noticeable user base,
+recently, and the current Deckyard maintainers vote for it.
 
 ## Getting involved
 
 Every deck welcomes co-maintainers, and some are looking for one - see the
 `help wanted` label. Fixes, tests and documentation are welcome everywhere.
 [CONTRIBUTING.md](https://github.com/deckyard/.github/blob/main/CONTRIBUTING.md)
-explains how a deck is maintained, how to propose a new one for review, and
+explains how a deck is maintained, how a deck is promoted to Deckyard, and
 what happens to a deck that loses its maintainer.
 
 Report a security problem privately through the deck's **Security** tab, not as

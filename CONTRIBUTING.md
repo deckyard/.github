@@ -70,7 +70,18 @@ keeps meeting them:
   message or URL.
 - **The shared CI layer** described above, unmodified.
 
-## Proposing a new deck
+## Promoting a deck to Deckyard
+
+A new deck starts under its maintainer's own scope (see
+[Publishing outside Deckyard](#publishing-outside-deckyard)). It is promoted
+to `@deckyard` only when both hold:
+
+- **It has a noticeable user base, recently:** people install it, depend on
+  it, or report issues against it now, not only at its first release.
+- **The current Deckyard maintainers vote for it:** in the proposal issue, a
+  majority of the votes cast is in favour.
+
+It must also meet [the requirements above](#what-a-deckyard-deck-must-meet).
 
 Open an issue in this `.github` repository: **Propose a new deck** in any
 Deckyard repository's issue chooser opens one with these headings:
@@ -82,15 +93,15 @@ Deckyard repository's issue chooser opens one with these headings:
 4. **Its outside dependencies:** services, accounts, API keys, capabilities
    (`net`, `exec`, `sql`). A deck that wraps one vendor's service needs a
    maintainer who uses that service.
-5. **Where it stands:** a link to its repository and to a release under your
-   own scope, if there is one, and how it meets the requirements above.
+5. **Where it stands:** a link to its repository and its releases under your
+   own scope, and how it meets the requirements above.
+6. **Who uses it:** recent evidence of users, such as dependent decks or
+   projects, issues and pull requests from people other than the maintainer.
 
-The organisation owners review the proposal against those requirements. A deck
-that is useful but not ready is better published under your own scope first;
-a working, released deck is the strongest proposal.
+The vote is held in the issue once the proposal is complete.
 
-Accepted decks are created from the template under the `@deckyard` scope, in a
-repository named `deck-<slug>`. An organisation owner creates the repository
+A promoted deck moves to a repository named `deck-<slug>` under the
+`@deckyard` scope, created from the template. An organisation owner creates the repository
 with `tools/gh-create-project.sh` in this repository, which also sets the
 organisation's usual settings, and runs it again with `--protect` after the
 first push.
