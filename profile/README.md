@@ -37,6 +37,7 @@ review, and only when it meets every requirement below and keeps meeting them.
 | [`@deckyard/docker`](https://github.com/deckyard/deck-docker) | A client for the Docker Engine API (and Podman's): containers, images, networks, volumes, exec and system |
 | [`@deckyard/epub`](https://github.com/deckyard/deck-epub) | Read and write EPUB books: metadata, chapters, table of contents, images and styles |
 | [`@deckyard/escl`](https://github.com/deckyard/deck-escl) | Network document scanners over eSCL (AirScan, Mopria): discovery, capabilities, scans to pages, files or PDF |
+| [`@deckyard/exif`](https://github.com/deckyard/deck-exif) | Read, change and strip EXIF metadata in JPEG, PNG and WebP: tags, GPS, dates, thumbnails and privacy stripping |
 | [`@deckyard/fhir`](https://github.com/deckyard/deck-fhir) | An HL7 FHIR R4 / R5 REST client: search with paging, versioned updates, transactions, operations, SMART backend services |
 | [`@deckyard/forensicgenetics`](https://github.com/deckyard/deck-forensicgenetics) | STR match probabilities, kinship and paternity likelihood ratios, pedigrees, mtDNA / Y-STR lineage markers |
 | [`@deckyard/forgejo`](https://github.com/deckyard/deck-forgejo) | Forgejo REST API (Codeberg or self-hosted): repositories, issues, pull requests, releases with assets, files |
