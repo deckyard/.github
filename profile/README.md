@@ -123,3 +123,11 @@ what happens to a deck that loses its maintainer.
 
 Report a security problem privately through the deck's **Security** tab, not as
 a public issue.
+
+## Trademarks
+
+Third-party product and company names on this page and in the decks may be
+trademarks of their respective owners;
+[docs/trademarks.md](https://github.com/jennifer-language/jennifer/blob/main/docs/trademarks.md)
+lists the ones the Jennifer docs name. Deckyard is an independent project,
+not affiliated with, sponsored or endorsed by any of them.
