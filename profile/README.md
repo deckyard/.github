@@ -34,6 +34,7 @@ review, and only when it meets every requirement below and keeps meeting them.
 | [`@deckyard/bioinformatics`](https://github.com/deckyard/deck-bioinformatics) | Sequence manipulation for DNA, RNA and protein |
 | [`@deckyard/codehost`](https://github.com/deckyard/deck-codehost) | One API over GitHub, GitLab and Forgejo: repositories, issues, pull and merge requests, releases, branches, tags, files and commit statuses |
 | [`@deckyard/d64`](https://github.com/deckyard/deck-d64) | Read, write, create and format Commodore 1541 D64 disk images |
+| [`@deckyard/discord`](https://github.com/deckyard/deck-discord) | Post messages to a Discord channel through a webhook |
 | [`@deckyard/docker`](https://github.com/deckyard/deck-docker) | A client for the Docker Engine API (and Podman's): containers, images, networks, volumes, exec and system |
 | [`@deckyard/epub`](https://github.com/deckyard/deck-epub) | Read and write EPUB books: metadata, chapters, table of contents, images and styles |
 | [`@deckyard/escl`](https://github.com/deckyard/deck-escl) | Network document scanners over eSCL (AirScan, Mopria): discovery, capabilities, scans to pages, files or PDF |
@@ -48,27 +49,36 @@ review, and only when it meets every requirement below and keeps meeting them.
 | [`@deckyard/git`](https://github.com/deckyard/deck-git) | Git repositories through the git command line: status, history, branches and remotes, hardened for untrusted input |
 | [`@deckyard/github`](https://github.com/deckyard/deck-github) | A client for the GitHub REST and GraphQL API: repositories, issues, pull requests, releases with assets, branches, tags, files and Actions |
 | [`@deckyard/gitlab`](https://github.com/deckyard/deck-gitlab) | A client for the GitLab REST and GraphQL API: projects, issues, merge requests, pipelines, releases, branches, tags and files |
+| [`@deckyard/gotify`](https://github.com/deckyard/deck-gotify) | Push notifications to a Gotify server |
 | [`@deckyard/hl7`](https://github.com/deckyard/deck-hl7) | HL7 v2 messages: parse, read and build with terser paths, acknowledgements, and an MLLP client and server |
+| [`@deckyard/influxdb`](https://github.com/deckyard/deck-influxdb) | InfluxDB 1.x, 2.x and 3.x: line-protocol writes, InfluxQL and Flux queries |
 | [`@deckyard/jellyfin`](https://github.com/deckyard/deck-jellyfin) | A client for the Jellyfin media server: libraries, search, resume and next up, played marks, images, users, tasks, sessions |
 | [`@deckyard/jsonpath`](https://github.com/deckyard/deck-jsonpath) | RFC 9535 JSONPath queries, checked against the official compliance test suite |
 | [`@deckyard/jsonschema`](https://github.com/deckyard/deck-jsonschema) | Validate JSON values against JSON Schema draft 2020-12, checked against the official test suite |
 | [`@deckyard/koofr`](https://github.com/deckyard/deck-koofr) | A client for the Koofr cloud storage API: mounts, files, search, public links, receivers and the trash |
+| [`@deckyard/mactelnet`](https://github.com/deckyard/deck-mactelnet) | MAC-Telnet: a RouterOS console by MAC address, to bootstrap a router with no IP |
 | [`@deckyard/magick`](https://github.com/deckyard/deck-magick) | Image processing through the ImageMagick 7 command line, with safe defaults for untrusted images |
+| [`@deckyard/mikrotik`](https://github.com/deckyard/deck-mikrotik) | The MikroTik RouterOS API: commands, queries and /listen streams over TCP or api-ssl |
 | [`@deckyard/mitoleaf`](https://github.com/deckyard/deck-mitoleaf) | The mitoLEAF mitochondrial phylogeny: haplogroup tree and nearest-haplogroup lookup |
 | [`@deckyard/money`](https://github.com/deckyard/deck-money) | Exact currency amounts in minor units: ISO 4217 currencies, rounding modes, allocation, exchange |
 | [`@deckyard/mp3`](https://github.com/deckyard/deck-mp3) | ID3v2.2/2.3/2.4 and ID3v1.1 tags, artwork, MPEG frame and VBR analysis, M3U/M3U8 playlists |
 | [`@deckyard/ngs`](https://github.com/deckyard/deck-ngs) | Streaming NGS file formats, read QC, interval arithmetic and pipeline orchestration |
+| [`@deckyard/oauthext`](https://github.com/deckyard/deck-oauthext) | Vendor OAuth2 over the bundled `oauth` module: Google and Microsoft presets, Google service accounts |
 | [`@deckyard/onvif`](https://github.com/deckyard/deck-onvif) | IP cameras and NVRs over ONVIF: discovery, device, media streams and snapshots, PTZ, imaging and events |
 | [`@deckyard/openai`](https://github.com/deckyard/deck-openai) | A client for OpenAI-compatible APIs (OpenAI, Ollama, vLLM, OpenRouter, Azure): chat with tools and structured output, embeddings, models |
+| [`@deckyard/prometheus`](https://github.com/deckyard/deck-prometheus) | Prometheus metrics in the text exposition format, and queries against its HTTP API |
 | [`@deckyard/proxmox`](https://github.com/deckyard/deck-proxmox) | A client for the Proxmox VE API: guests, power, snapshots, storage and tasks |
 | [`@deckyard/routeros`](https://github.com/deckyard/deck-routeros) | A friendly layer over the MikroTik RouterOS API |
 | [`@deckyard/seafile`](https://github.com/deckyard/deck-seafile) | A client for the Seafile Web API: libraries, files, links, trash, tokens and search |
 | [`@deckyard/sealbox`](https://github.com/deckyard/deck-sealbox) | One-call encryption formats on top of `crypto`: sealed boxes, encrypt-then-MAC, Fernet |
 | [`@deckyard/sheets`](https://github.com/deckyard/deck-sheets) | ODS, XLSX and Gnumeric over one cell model, with a CSV bridge |
+| [`@deckyard/slack`](https://github.com/deckyard/deck-slack) | Post messages to Slack through an Incoming Webhook |
 | [`@deckyard/statfiles`](https://github.com/deckyard/deck-statfiles) | Readers for SPSS, Stata and SAS data files: .sav, .zsav, .por, .dta, .xpt and .sas7bdat with value labels and missing codes |
+| [`@deckyard/statsd`](https://github.com/deckyard/deck-statsd) | StatsD over UDP: counters, gauges, timings and sets, with DogStatsD tags and batching |
 | [`@deckyard/steam`](https://github.com/deckyard/deck-steam) | A friendly layer over Valve's Steam Web API |
 | [`@deckyard/strider`](https://github.com/deckyard/deck-strider-frequency-converter) | STRidER allele-frequency tables into a `forensicgenetics` frequency database |
 | [`@deckyard/synology`](https://github.com/deckyard/deck-synology) | Synology DSM Web API: File Station, virtual machines, users and shares, administration, Container Manager |
+| [`@deckyard/telegram`](https://github.com/deckyard/deck-telegram) | A Telegram Bot API client |
 | [`@deckyard/tmdb`](https://github.com/deckyard/deck-tmdb) | A typed client for The Movie Database |
 | [`@deckyard/unraid`](https://github.com/deckyard/deck-unraid) | A client for the Unraid GraphQL API: array, disks, shares, Docker containers, VMs, notifications |
 | [`@deckyard/vies`](https://github.com/deckyard/deck-vies) | EU VAT number validation through the European Commission's VIES service, with offline syntax checks and a consultation number as proof |
