@@ -10,6 +10,7 @@
  * scope picks the card:
  *
  *   @deckyard   the Deckyard logo on the left, text on the right, navy
+ *   @skiffyard  the Skiffyard logo on the left, text on the right, navy
  *   @jennifer   text on the left, the Jennifer monogram on the right, ink
  *
  * Other scopes are skipped.
@@ -17,17 +18,21 @@
  *   jennifer run tools/social-preview.j                  # every deck
  *   jennifer run tools/social-preview.j ../geo ../gotify # these decks
  *   jennifer run tools/social-preview.j --out /tmp/p ../geo
+ *   jennifer run tools/social-preview.j ../../skiffyard/deck-javaser
  *
- * With no deck given it walks the directories beside profile. Each
+ * With no deck given it walks the directories beside profile, and those
+ * of the `skiffyard` checkout beside this organisation's. Each
  * deck gets `<out>/<repo>.svg` and `<out>/<repo>.png` (default
  * `profile/previews`), named after the repository its homepage URL
  * points to. GitHub has no API for social previews: upload each PNG under
  * the repository's Settings > General > Social preview; the script prints
  * the link.
  *
- * The Deckyard logo is `profile/deckyard.svg`; the Jennifer monogram is
- * read from the `jennifer` checkout two levels up
- * (`../../jennifer/site/logo/jennifer.svg` from profile), or from
+ * The Deckyard logo is `profile/deckyard.svg`; the Skiffyard logo is read
+ * from the `skiffyard` checkout beside this one
+ * (`../../skiffyard/profile/profile/skiffyard.svg` from profile), or from
+ * `--skiffyard-logo`; the Jennifer monogram from the `jennifer` checkout two
+ * levels up (`../../jennifer/site/logo/jennifer.svg` from profile), or from
  * `--jennifer-logo`.
  *
  * Text is set in DejaVu Sans, measured with the `font` module from the
@@ -425,15 +430,20 @@ if ($here == "tools") {
 }
 def outDir as string init $orgDir + "/previews";
 def jenniferLogo as string init $orgDir + "/../../jennifer/site/logo/jennifer.svg";
+def skiffyardDir as string init $orgDir + "/../../skiffyard";
+def skiffyardLogo as string init $skiffyardDir + "/profile/profile/skiffyard.svg";
 def decks as list of string init [];
 def i as int init 1;
 while ($i < len(os.ARGS)) {
     def arg as string init os.ARGS[$i];
-    if (($arg == "--out" or $arg == "--jennifer-logo") and $i + 1 < len(os.ARGS)) {
+    if (($arg == "--out" or $arg == "--jennifer-logo" or $arg == "--skiffyard-logo") and
+        $i + 1 < len(os.ARGS)) {
         if ($arg == "--out") {
             $outDir = os.ARGS[$i + 1];
-        } else {
+        } elseif ($arg == "--jennifer-logo") {
             $jenniferLogo = os.ARGS[$i + 1];
+        } else {
+            $skiffyardLogo = os.ARGS[$i + 1];
         }
         $i = $i + 2;
     } else {
@@ -448,10 +458,17 @@ if (not $explicit) {
             $decks[] = $orgDir + "/../" + $entry;
         }
     }
+    if (fs.isDir($skiffyardDir)) {
+        for (def entry in fs.list($skiffyardDir)) {
+            if ($entry != "profile" and fs.isDir($skiffyardDir + "/" + $entry)) {
+                $decks[] = $skiffyardDir + "/" + $entry;
+            }
+        }
+    }
 }
 
 # The palettes are the logos' own: Deckyard's navy, paper and orange
-# (profile/deckyard.svg); Jennifer's ink, paper and coral, with the
+# (profile/deckyard.svg), which Skiffyard's logo shares; Jennifer's ink, paper and coral, with the
 # monogram's aubergine tile standing out against the ink.
 def brands as map of string to Brand init {
     "@deckyard": withLogo(
@@ -467,6 +484,19 @@ def brands as map of string to Brand init {
             logoLeft: true
         },
         $orgDir + "/profile/deckyard.svg"),
+    "@skiffyard": withLogo(
+        Brand{
+            scope: "@skiffyard",
+            org: "skiffyard",
+            logo: "",
+            viewBox: "",
+            background: "#0e1f36",
+            text: "#f4f1ea",
+            muted: "#9fb0c8",
+            accent: "#ff7a45",
+            logoLeft: true
+        },
+        $skiffyardLogo),
     "@jennifer": withLogo(
         Brand{
             scope: "@jennifer",
@@ -491,7 +521,9 @@ for (def dir in $decks) {
     def c as Card init cardOf($dir, $brands);
     if ($c.name == "") {
         if ($explicit) {
-            io.eprintf("skipped %s: no @deckyard or @jennifer manifest with a description\n", $dir);
+            io.eprintf(
+                "skipped %s: no @deckyard, @skiffyard or @jennifer manifest with a description\n",
+                $dir);
         }
         continue;
     }

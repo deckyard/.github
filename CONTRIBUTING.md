@@ -9,6 +9,21 @@ repository's own `CONTRIBUTING.md` adds to them.
 To release a deck of your own, you do not need Deckyard: see
 [Publishing outside Deckyard](#publishing-outside-deckyard).
 
+## Where a deck belongs
+
+| Tier | Scope | What it holds | How a deck gets there |
+|---|---|---|---|
+| 1 | core | the interpreter, its built-in libraries and bundled modules, maintained by the Jennifer project | - |
+| 2 | `@deckyard` | major community decks, each with its own maintainers | the [requirements](#what-a-deckyard-deck-must-meet), a recent user base and a vote ([promotion](#promoting-a-deck-to-deckyard)) |
+| 3 | `@skiffyard` | smaller community decks: the same technical bar, a narrower audience | the requirements and a review by one maintainer ([Skiffyard](https://github.com/skiffyard/.github/blob/main/CONTRIBUTING.md)) |
+| 4 | `@<user>` | anyone's decks, under the author's name | `jvc publish` |
+
+The Jennifer project's own organisation holds only what its core team
+maintains, so every deck is in one of the community tiers or under its
+author's name. A deck moves up when it earns it and down when its users are
+gone; each move is a registry move record, with the old versions yanked, and
+users change their imports.
+
 ## Every deck has a maintainer
 
 - Each repository names its maintainers in `.github/CODEOWNERS`, as a team of
@@ -73,8 +88,9 @@ keeps meeting them:
 ## Promoting a deck to Deckyard
 
 A new deck starts under its maintainer's own scope (see
-[Publishing outside Deckyard](#publishing-outside-deckyard)). It is promoted
-to `@deckyard` only when both hold:
+[Publishing outside Deckyard](#publishing-outside-deckyard)), and a small one
+may move to `@skiffyard` first. It is promoted to `@deckyard`, from either,
+only when both hold:
 
 - **It has a noticeable user base, recently:** people install it, depend on
   it, or report issues against it now, not only at its first release.
@@ -105,6 +121,17 @@ A promoted deck moves to a repository named `deck-<slug>` under the
 with `tools/gh-create-project.sh` in this repository, which also sets the
 organisation's usual settings, and runs it again with `--protect` after the
 first push.
+
+## Moving a deck to Skiffyard
+
+A Deckyard deck that has had no noticeable user base for a year moves to
+`@skiffyard`, where it keeps its maintainers and the same requirements. The
+move is proposed in an issue in this `.github` repository, announced a month
+ahead, and decided by a majority of the votes the current Deckyard
+maintainers cast. The repository is transferred to the Skiffyard
+organisation, the registry records the move and yanks the old versions, and
+the deck's README tells its users the new import path. It can come back the
+same way it was promoted.
 
 ## Publishing outside Deckyard
 

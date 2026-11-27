@@ -8,7 +8,8 @@
 #
 # What it sets:
 #   - a public repository `deck-<name>`, with description, homepage (its Pages
-#     site) and topics: jennifer-lang, jennifer-deck, deckyard + any given
+#     site) and topics: jennifer-lang, jennifer-deck, the organisation's own
+#     (deckyard or skiffyard) + any given
 #   - issues on; wiki and projects off - docs live in the book, plans in issues
 #   - squash merges only, branches deleted after merge, auto-merge allowed
 #   - secret scanning, push protection, private vulnerability reporting
@@ -18,7 +19,8 @@
 #   - the maintainers team, with `maintain` permission (--team "" skips it,
 #     for an organisation without teams such as jennifer-language)
 #
-# The `deckyard` topic is added only in the deckyard organisation.
+# The organisation's own topic is added only in the deckyard and skiffyard
+# organisations. The script serves Skiffyard too: --org skiffyard.
 #
 # With --protect it also sets the rulesets, which belong after the first push:
 #   - main:  no deletion, no force push, and the shared test.yml checks must
@@ -167,7 +169,7 @@ fi
 # Topics: the organisation's three, then the extras, lower-cased and
 # hyphenated as GitHub requires, without duplicates, at most twenty.
 org_topics=(jennifer-lang "jennifer-$kind")
-[[ "$org" == deckyard ]] && org_topics+=(deckyard)
+[[ "$org" == deckyard || "$org" == skiffyard ]] && org_topics+=("$org")
 mapfile -t topic_list < <(python3 - "${org_topics[@]}" \
     "${topics[@]+"${topics[@]}"}" "${keywords[@]+"${keywords[@]}"}" <<'PY'
 import re, sys

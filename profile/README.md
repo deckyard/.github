@@ -123,6 +123,12 @@ That is the right path for most decks, and where every new deck starts. A
 deck is promoted to `@deckyard` only when it has a noticeable user base,
 recently, and the current Deckyard maintainers vote for it.
 
+A smaller deck that meets the same technical requirements, but serves a
+narrower audience, has a home in [Skiffyard](https://github.com/skiffyard),
+Deckyard's sister organisation for small decks: one maintainer's review is
+enough to join it, and a deck there that gathers users can be promoted to
+Deckyard later.
+
 ## Getting involved
 
 Every deck welcomes co-maintainers, and some are looking for one - see the
